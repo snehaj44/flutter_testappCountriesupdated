@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_testapp/API%20Files/config.dart';
 import 'package:flutter_testapp/style/Textstyle.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+//import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 
 class WikipediaExplorer extends StatefulWidget {
