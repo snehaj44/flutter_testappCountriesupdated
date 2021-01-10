@@ -41,7 +41,9 @@ dependencies:
   webview_flutter: ^0.1.1
   url_launcher: ^4.0.2
   data_connection_checker: ^0.3.4
-
+  flutter_svg: ^0.19.0
+  kt_dart: ^0.8.0
+  double_back_to_close_app: ^1.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

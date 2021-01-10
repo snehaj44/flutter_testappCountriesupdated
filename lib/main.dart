@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_testapp/ui/pages/ArticleList.dart';
+import 'package:flutter_testapp/ui/pages/Regionlist.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: ArticleList(),
+      home: Regionlist(),
     );
   }
 }

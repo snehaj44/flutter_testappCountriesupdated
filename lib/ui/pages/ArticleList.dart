@@ -35,7 +35,7 @@ class ArticleList extends StatefulWidget {
 
 class _ArticleList extends State<ArticleList> {
   ScrollController _scrollController;
-  bool internet = true;
+  bool internet = false;
   String articleString = '';
   List<Articles> article = [];
   String text,imgurl;
@@ -48,7 +48,10 @@ class _ArticleList extends State<ArticleList> {
     if (connectivityResult == ConnectivityResult.mobile) {
       // I am connected to a mobile network, make sure there is actually a net connection.
       if (await DataConnectionChecker().hasConnection) {
-        internet = true;
+        setState(() {
+          internet = true;
+        });
+
         // Mobile data detected & internet connection confirmed.
        // return true;
       } else {
@@ -60,7 +63,9 @@ class _ArticleList extends State<ArticleList> {
       // I am connected to a WIFI network, make sure there is actually a net connection.
       if (await DataConnectionChecker().hasConnection) {
         // Wifi detected & internet connection confirmed.
-        internet = true;
+        setState(() {
+          internet = true;
+        });
        // return true;
       } else {
         // Wifi detected but no internet connection found.
@@ -115,6 +120,40 @@ class _ArticleList extends State<ArticleList> {
     //return internet;
   }
 
+
+  main() async {
+    // Simple check to see if we have internet
+    print("The statement 'this machine is connected to the Internet' is: ");
+    print(await DataConnectionChecker().hasConnection);
+    // returns a bool
+
+    // We can also get an enum instead of a bool
+    print("Current status: ${await DataConnectionChecker().connectionStatus}");
+    // prints either DataConnectionStatus.connected
+    // or DataConnectionStatus.disconnected
+
+    // This returns the last results from the last call
+    // to either hasConnection or connectionStatus
+    print("Last results: ${DataConnectionChecker().lastTryResults}");
+
+    // actively listen for status updates
+    var listener = DataConnectionChecker().onStatusChange.listen((status) {
+      switch (status) {
+        case DataConnectionStatus.connected:
+          print('Data connection is available.');
+          internet = true;
+          break;
+        case DataConnectionStatus.disconnected:
+          print('You are disconnected from the internet.');
+          internet = false;
+          break;
+      }
+    });
+
+    // close listener after 30 seconds, so the program doesn't run forever
+    await Future.delayed(Duration(seconds: 30));
+    await listener.cancel();
+  }
   @override
   initState()  {
     // TODO: implement initState
@@ -201,7 +240,7 @@ class _ArticleList extends State<ArticleList> {
               padding: EdgeInsets.all(5.0),
               child: SingleChildScrollView(
                 controller: _scrollController,
-                child: isInternet() != null ?
+                child: internet ?
                 article.length==0 ? FutureBuilder(
                   future:  getArticles() ,
                   builder: (context,snapshot){
@@ -225,13 +264,12 @@ class _ArticleList extends State<ArticleList> {
                 ) : productList(): FutureBuilder(
                   future:  getSavedArticles() ,
                   builder: (context,snapshot){
-                    if(snapshot.connectionState == ConnectionState.waiting){
-                      return SpinKitThreeBounce(
-                        color: Colors.amber,
-                        size: 20,
-                      );
-                    }
+
                     if(snapshot.hasData){
+                      if(article.length!=0)
+                        {
+                          article.clear();
+                        }
                       article = snapshot.data;
                       // setData("ARTICLE_DATA", snapshot.data).then((value){
                       //   // Navigator.pop(context,"TRUE");

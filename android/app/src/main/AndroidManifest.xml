@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_testapp">
    <application
-        android:label="flutter_testapp"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Countries"
+        android:icon="@mipmap/ic_launcher2">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -27,6 +27,7 @@
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
               />
+            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
